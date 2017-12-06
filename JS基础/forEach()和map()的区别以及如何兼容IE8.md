@@ -109,3 +109,6 @@ map()有返回值，可以return。 返回值返回的是当前项修改以后�
   const trans = arr.myMap(item => item*2);
   console.log(trans); //--> [2,6,4,10]
 ```
+
+参考：
+[原生JS forEach()和map()遍历的区别以及兼容写法](http://blog.csdn.net/huangpb123/article/details/52756303#)
