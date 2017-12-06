@@ -24,7 +24,7 @@
   console.log(res); //--> undefined;
   console.log(arr); //--> [120,230,240,420,10]  原来的数组被改变；
 ```
-forEach()的第二个参数改变回调函数里的this指向。**map()的第二个参数也会改变this指向！！！同forEach()**
+forEach()的第二个参数改变回调函数里的this指向(非箭头函数的写法时才是酱紫，map()同)。**map()的第二个参数也会改变this指向！！！同forEach()**
 ```javascript
   var arr = [1,2,3,4,5];
   var arr2 = ["a","b","c","d","e"];
