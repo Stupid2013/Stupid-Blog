@@ -568,39 +568,40 @@ arr1.push(...arr2);
 
 3. 扩展运算符的应用
 
-  * 复制数组
-  数组是复合的数据类型，直接复制的话，只是复制了指向底层数据结构的指针，而不是克隆一个全新的数组。
+    * 复制数组
+    数组是复合的数据类型，直接复制的话，只是复制了指向底层数据结构的指针，而不是克隆一个全新的数组。
 
-  ```javascript
-  const a1 = [1, 2];
-  const a2 = a1;
+    ```javascript
+    const a1 = [1, 2];
+    const a2 = a1;
 
-  a2[0] = 2;
-  a1 // [2, 2]
-  ```
+    a2[0] = 2;
+    a1 // [2, 2]
+    ```
 
-  `ES5`只能用变通方法来复制数组。
+    `ES5`只能用变通方法来复制数组。
 
-  ```javascript
-  const a1 = [1, 2];
-  const a2 = a1.concat(); // a1会返回原数组的克隆，再修改a2就不会对a1产生影响。
+    ```javascript
+    const a1 = [1, 2];
+    const a2 = a1.concat(); // a1会返回原数组的克隆，再修改a2就不会对a1产生影响。
 
-  a2[0] = 2;
-  a1 // [1, 2]
-  ```
+    a2[0] = 2;
+    a1 // [1, 2]
+    ```
 
-  扩展运算符提供了复制数组的简便写法。
+    扩展运算符提供了复制数组的简便写法。
 
-  ```javascript
-  const a1 = [1, 2];
-  // 写法一
-  const a2 = [...a1];
-  // 写法二
-  const [...a2] = a1;
-  ```
-  上面的两种写法，`a2`都是`a1`的克隆。
+    ```javascript
+    const a1 = [1, 2];
+    // 写法一
+    const a2 = [...a1];
+    // 写法二
+    const [...a2] = a1;
+    ```
+    上面的两种写法，`a2`都是`a1`的克隆。
 
 
 参考文章：
   [Javascript标准参考教程 Array对象](http://javascript.ruanyifeng.com/stdlib/array.html)
+
   [ECMAScript 6入门 数组的扩展](http://es6.ruanyifeng.com/#docs/array)
