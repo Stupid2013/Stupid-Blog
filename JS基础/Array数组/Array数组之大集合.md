@@ -765,12 +765,84 @@ arr.fill(6, 1, 3); // [1, 6, 6, 4]
 [].fill.call( { length : 3 }, 4) // {0: 4, 1: 4, 2: 4, length: 3}
 ```
 
+### entries(), keys(), values()
 
+`entries()`，`keys()`和`values()`——用于遍历数组。它们都返回一个遍历器对象，可以用`for...of`循环进行遍历，唯一的区别是`keys()`是对键名的遍历、`values()`是对键值的遍历(谷歌目前不支持)，`entries()`是对键值对的遍历。
 
+```javascript
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// 0
+// 1
 
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// 'a'
+// 'b'
 
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// 0 "a"
+// 1 "b"
+```
 
+如果不使用`for...of`循环，可以手动调用遍历器对象的`next`方法，进行遍历。
 
+```javascript
+let letter = ['a', 'b', 'c'];
+let entries = letter.entries();
+console.log(entries.next().value); // [0, 'a']
+console.log(entries.next().value); // [1, 'b']
+console.log(entries.next().value); // [2, 'c']
+```
+
+### includes()
+
+`Array.prototype.includes`方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的`includes`方法类似。
+
+```javascript
+[1, 2, 3].includes(2)     // true
+[1, 2, 3].includes(4)     // false
+[1, 2, NaN].includes(NaN) // true
+```
+
+该方法的第二个参数表示搜索的起始位置，默认为0。如果第二个参数为负数，则表示倒数的位置，如果这时它大于数组长度（比如第二个参数为-4，但数组长度为3），则会重置为从0开始。
+
+```javascript
+[1, 2, 3].includes(3, 3);  // false
+[1, 2, 3].includes(3, -1); // true
+```
+
+没有该方法之前，我们通常使用数组的`indexOf`方法，检查是否包含某个值。
+
+```javascript
+if (arr.indexOf(el) !== -1) {
+  // ...
+}
+```
+
+`indexOf`方法内部使用严格相等运算符（`===`）进行判断，这会导致对`NaN`的误判。`includes`没有这个问题。
+
+```javascript
+[NaN].indexOf(NaN)
+// -1
+
+[NaN].includes(NaN)
+// true
+```
+
+不支持includes时可用以下方法代替：
+```javascript
+const contains = (() =>
+  Array.prototype.includes
+    ? (arr, value) => arr.includes(value)
+    : (arr, value) => arr.some(el => el === value)
+)();
+contains(['foo', 'bar'], 'baz'); // => false
+```
 
 ### 其他
 
@@ -893,7 +965,99 @@ arr1.push(...arr2);
     const [first, ...middle, last] = [1, 2, 3, 4, 5];
     // 报错
     ```
+4. 数组的空位
 
+空位不是`undefined`，一个位置的值等于`undefined`，依然是有值的。空位是没有任何值，`in`运算符可以说明这一点。
+```javascript
+0 in [undefined, undefined, undefined] // true
+0 in [, , ,] // false
+```
+
+ES5 对空位的处理，已经很不一致了，大多数情况下会忽略空位。
+
+    * `forEach()`, `filter()`, `every()` 和`some()`都会跳过空位。
+    * `map()`会跳过空位，但会保留这个值
+    * `join()`和`toString()`会将空位视为`undefined`，而`undefined`和`null`会被处理成空字符串。
+
+```javascript
+// forEach方法
+[,'a'].forEach((x,i) => console.log(i)); // 1
+
+// filter方法
+['a',,'b'].filter(x => true) // ['a','b']
+
+// every方法
+[,'a'].every(x => x==='a') // true
+
+// some方法
+[,'a'].some(x => x !== 'a') // false
+
+// map方法
+[,'a'].map(x => 1) // [,1]
+
+// join方法
+[,'a',undefined,null].join('#') // "#a##"
+
+// toString方法
+[,'a',undefined,null].toString() // ",a,,"
+```
+
+ES6 则是明确将空位转为`undefined`。
+
+`Array.from`方法会将数组的空位，转为`undefined`，也就是说，这个方法不会忽略空位。
+
+```javascript
+Array.from(['a',,'b'])
+// [ "a", undefined, "b" ]
+```
+
+扩展运算符（`...`）也会将空位转为`undefined`。
+```javascript
+[...['a',,'b']]
+// [ "a", undefined, "b" ]
+```
+
+`copyWithin()`会连空位一起拷贝。
+```javascript
+[,'a','b',,].copyWithin(2,0) // [,"a",,"a"]
+```
+
+`fill()`会将空位视为正常的数组位置。
+```javascript
+new Array(3).fill('a') // ["a","a","a"]
+```
+
+`for...of`循环也会遍历空位。
+```javascript
+let arr = [, ,];
+for (let i of arr) {
+  console.log(1);
+}
+// 1
+// 1
+```
+
+上面代码中，数组arr有两个空位，`for...of`并没有忽略它们。如果改成`map`方法遍历，空位是会跳过的。
+
+`entries()`、`keys()`、`values()`、`find()`和`findIndex()`会将空位处理成`undefined`。
+```javascript
+// entries()
+[...[,'a'].entries()] // [[0,undefined], [1,"a"]]
+
+// keys()
+[...[,'a'].keys()] // [0,1]
+
+// values()
+[...[,'a'].values()] // [undefined,"a"]
+
+// find()
+[,'a'].find(x => true) // undefined
+
+// findIndex()
+[,'a'].findIndex(x => true) // 0
+```
+
+空位的处理规则非常不统一，所以建议避免出现空位。
 
 参考文章：
 
