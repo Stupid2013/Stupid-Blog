@@ -313,7 +313,7 @@ a // [1, 2]
 
 ### sort()
 
-`sort`方法对数组成员进行排序，默认是按照字典顺序排序。排序后，原数组将被改变。
+`sort`方法对数组成员进行排序，默认是按照字典顺序排序。排序后，**原数组将被改变**。
 
 ```javascript
 ['d', 'c', 'b', 'a'].sort()
@@ -356,3 +356,251 @@ a // [1, 2]
 ### map()和forEach()
 
 见[Array数组之forEach()和 map()的区别以及如何兼容IE8](./Array数组之forEach()和map()的区别以及如何兼容IE8.md)
+
+### filter()
+
+`filter`过滤掉数组中不满足条件的值，返回一个新数组，**不改变原数组的值**。
+
+```javascript
+[1, 2, 3, 4, 5].filter(function (elem) {
+  return (elem > 3);
+})
+// [4, 5]
+
+// 通过filter方法，返回数组arr里面所有布尔值为true的成员
+var arr = [0, 1, 'a', false];
+
+arr.filter(Boolean)
+// [1, "a"]
+```
+
+`filter`方法还可以接受第二个参数，指定测试函数所在的上下文对象（即`this`对象）。
+
+```javascript
+var Obj = function () {
+  this.MAX = 3;
+};
+
+var myFilter = function (item) {
+  if (item > this.MAX) {
+    return true;
+  }
+};
+
+var arr = [2, 8, 3, 4, 1, 3, 2, 9];
+arr.filter(myFilter, new Obj())
+// [8, 4, 9]
+```
+
+上面代码中，测试函数`myFilter`内部有`this`对象，它可以被`filter`方法的第二个参数绑定。上例中，`myFilter`的`this`绑定了`Obj`对象的实例，返回大于3的成员。
+
+### some(), every()
+
+都返回布尔值，`some`方法是只要有一个数组成员的返回值是`true`，则整个`some`方法的返回值就是`true`，否则`false`;`every`方法则是所有数组成员的返回值都是`true`，才返回`true`，否则false。**都不改变原数组**。
+
+```javascript
+var arr = [1, 2, 3, 4, 5];
+arr.some(function (elem, index, arr) {
+  return elem >= 3;
+});
+// true
+
+var arr = [1, 2, 3, 4, 5];
+arr.every(function (elem, index, arr) {
+  return elem >= 3;
+});
+// false
+```
+
+**注意**，对于空数组，`some`方法返回`false`，`every`方法返回`true`，**回调函数都不会执行**。
+
+```javascript
+function isEven(x) { return x % 2 === 0 };
+
+[].some(isEven) // false
+[].every(isEven) // true
+```
+
+
+`some()`和`every()`还可以接受第二个参数，用来绑定函数中的`this`关键字。
+
+### indexOf(), lastIndexOf()
+
+`indexOf()`返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
+
+```javascript
+var a = ['a', 'b', 'c'];
+
+a.indexOf('b') // 1
+a.indexOf('y') // -1
+```
+
+`indexOf()`还可以接受第二个参数，表示搜索的开始位置。如果第二个参数为负值，表示从倒数的位置开始搜索。
+
+```javascript
+['a', 'b', 'c'].indexOf('a', 1) // -1
+
+['a', 'b', 'c'].indexOf('c', -1) // 2
+```
+
+`lastIndexOf()`返回给定元素在数组中最后一次出现的位置，如果没有出现则返回-1。
+
+```javascript
+var a = [2, 5, 9, 2];
+a.lastIndexOf(2) // 3
+a.lastIndexOf(7) // -1
+```
+
+**注意**，如果数组中包含`NaN`，这两个方法不适用，即无法确定数组成员是否包含`NaN`。
+
+```javascript
+[NaN].indexOf(NaN) // -1
+[NaN].lastIndexOf(NaN) // -1
+```
+
+因为这两个方法内部，使用严格相等运算符（`===`）进行比较，**而`NaN`是唯一一个不等于自身的值**。
+
+### reduce(), reduceRight()
+
+`reduce`方法和`reduceRight`方法依次处理数组的每个成员，最终累计为一个值。
+
+它们的差别是，`reduce`是从左到右处理，`reduceRight`则是从右到左，其他完全一样。
+
+这两个方法的第一个参数都是一个函数。该函数接受以下四个参数。
+
+    1. 累积变量，默认为数组的第一个成员
+    2. 当前变量，默认为数组的第二个成员
+    3. 当前位置（从0开始）(可选)
+    4. 原数组(可选)
+
+下面的例子求数组成员之和。
+
+```javascript
+[1, 2, 3, 4, 5].reduce(function(x, y){
+  console.log(x, y)
+  return x + y;
+});
+// 1 2
+// 3 3
+// 6 4
+// 10 5
+//最后结果：15
+```
+
+利用`reduce`方法，可以写一个数组求和的`sum`方法。
+
+```javascript
+Array.prototype.sum = function (){
+  return this.reduce(function (partial, value) {
+    return partial + value;
+  })
+};
+
+[3, 4, 5, 6, 10].sum()
+// 28
+```
+
+如果要对累积变量指定初值，可以把它放在`reduce`方法和`reduceRight`方法的第二个参数。
+
+```javascript
+[1, 2, 3, 4, 5].reduce(function(x, y){
+  return x + y;
+}, 10);
+// 25
+```
+
+下面是一个`reduceRight`方法的例子。
+
+```javascript
+function substract(prev, cur) {
+  return prev - cur;
+}
+
+[3, 2, 1].reduce(substract) // 0
+[3, 2, 1].reduceRight(substract) // -4
+```
+
+由于`reduce`方法依次处理每个元素，所以实际上还可以用它来搜索某个元素。比如，下面代码是找出长度最长的数组元素。
+
+```javascript
+function findLongest(entries) {
+  return entries.reduce(function (longest, entry) {
+    return entry.length > longest.length ? entry : longest;
+  }, '');
+}
+
+findLongest(['aaa', 'bb', 'c']) // "aaa"
+```
+
+
+
+
+### 其他
+
+1. 数组求最大值：
+
+```javascript
+// ES5 的写法
+Math.max.apply(null, [14, 3, 77])
+
+// ES6 的写法
+Math.max(...[14, 3, 77])
+
+// 等同于
+Math.max(14, 3, 77);
+```
+
+2. 通过`push`函数，将一个数组添加到另一个数组的尾部。
+
+```javascript
+// ES5的 写法
+var arr1 = [0, 1, 2];
+var arr2 = [3, 4, 5];
+Array.prototype.push.apply(arr1, arr2);
+
+// ES6 的写法
+let arr1 = [0, 1, 2];
+let arr2 = [3, 4, 5];
+arr1.push(...arr2);
+```
+
+上面代码的`ES5`写法中，`push`方法的参数不能是数组，所以只好通过`apply`方法变通使用`push`方法。有了扩展运算符，就可以直接将数组传入`push`方法。
+
+3. 扩展运算符的应用
+
+  * 复制数组
+  数组是复合的数据类型，直接复制的话，只是复制了指向底层数据结构的指针，而不是克隆一个全新的数组。
+
+  ```javascript
+  const a1 = [1, 2];
+  const a2 = a1;
+
+  a2[0] = 2;
+  a1 // [2, 2]
+  ```
+
+  `ES5`只能用变通方法来复制数组。
+
+  ```javascript
+  const a1 = [1, 2];
+  const a2 = a1.concat(); // a1会返回原数组的克隆，再修改a2就不会对a1产生影响。
+
+  a2[0] = 2;
+  a1 // [1, 2]
+  ```
+
+  扩展运算符提供了复制数组的简便写法。
+
+  ```javascript
+  const a1 = [1, 2];
+  // 写法一
+  const a2 = [...a1];
+  // 写法二
+  const [...a2] = a1;
+  ```
+  上面的两种写法，`a2`都是`a1`的克隆。
+
+
+参考文章：
+  [Javascript标准参考教程 Array对象](http://javascript.ruanyifeng.com/stdlib/array.html)
+  [ECMAScript 6入门 数组的扩展](http://es6.ruanyifeng.com/#docs/array)
