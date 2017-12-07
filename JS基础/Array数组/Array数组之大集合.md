@@ -8,7 +8,7 @@
 
     valueOf(), toString(), push(), pop(), join(), concat(), shift(), unshift(), reverse(), slice(), splice(), sort()
     es5新增: forEach(), map(), filter(), some(), every(), indexOf(), lastIndexOf(), reduce(), reduceRight()
-    es6新增： from(), of(), copyWithin(), find(), findIndex(), fill(), entries(), keys(), values(), includes()
+    es6新增： Array.from(), Array.of(), copyWithin(), find(), findIndex(), fill(), entries(), keys(), values(), includes()
     注：这些都是Array实例的方法。
 
  **注： Array.isArray(a)可以用来判断a是不是数组。**
@@ -532,6 +532,243 @@ function findLongest(entries) {
 findLongest(['aaa', 'bb', 'c']) // "aaa"
 ```
 
+### Array.from()
+
+`Array.from`方法用于将两类对象转为真正的数组：类似数组的对象和可遍历的对象（包括 ES6 新增的数据结构`Set`和`Map`）。
+
+```javascript
+let arrayLike = {
+    '0': 'a',
+    '1': 'b',
+    '2': 'c',
+    length: 3  // 决定了返回的数组长度
+};
+
+// ES5的写法
+var arr1 = [].slice.call(arrayLike); // ['a', 'b', 'c']
+或者 var arr1 = Array.prototype.slice.call(arrayLike); // ['a', 'b', 'c']
+
+// ES6的写法
+let arr2 = Array.from(arrayLike); // ['a', 'b', 'c']
+
+let arrayLike2 = {
+  '0': 'a',
+  '1': 'b',
+  length: 3,
+}
+
+let arr = Array.from(arrayLike2); // ["a", "b", undefined]
+```
+实际应用中，常见的类似数组的对象是 DOM 操作返回的 NodeList 集合，以及函数内部的`arguments`对象。`Array.from`都可以将它们转为真正的数组。
+
+```javascript
+// NodeList对象
+let ps = document.querySelectorAll('p');
+Array.from(ps).forEach(function (p) {
+  console.log(p);
+});
+
+// arguments对象
+function foo() {
+  var args = Array.from(arguments);
+  // ...
+}
+```
+
+只要是部署了 `Iterator` 接口的数据结构，`Array.from`都能将其转为数组。
+
+```javascript
+Array.from('hello')
+// ['h', 'e', 'l', 'l', 'o']
+
+let namesSet = new Set(['a', 'b'])
+Array.from(namesSet) // ['a', 'b']
+```
+
+对于还没有部署该方法的浏览器，可以用`Array.prototype.slice`方法替代。
+
+`Array.from`还可以接受第二个参数，作用类似于数组的`map`方法。
+
+```javascript
+Array.from(arrayLike, x => x * x);
+// 等同于
+Array.from(arrayLike).map(x => x * x);
+
+Array.from([1, 2, 3], (x) => x * x)
+// [1, 4, 9]
+```
+
+下面的例子是取出一组 DOM 节点的文本内容。
+
+```javascript
+let spans = document.querySelectorAll('span.name');
+
+// map()
+let names1 = Array.prototype.map.call(spans, s => s.textContent);
+
+// Array.from()
+let names2 = Array.from(spans, s => s.textContent)
+```
+
+下面的例子将数组中布尔值为`false`的成员转为0。
+
+```javascript
+Array.from([1, , 2, , 3], (n) => n || 0)
+// [1, 0, 2, 0, 3]
+```
+
+如果`map`函数里面用到了`this`关键字，还可以传入`Array.from`的第三个参数，用来绑定`this`。
+
+```javascript
+Array.from({ length: 2 }, () => 'jack')
+// ['jack', 'jack']
+```
+
+上面代码中，`Array.from`的第一个参数指定了第二个参数运行的次数。这种特性可以让该方法的用法变得非常灵活。
+
+`Array.from()`的另一个应用是，将字符串转为数组，然后返回字符串的长度。
+
+```javascript
+function countSymbols(string) {
+  return Array.from(string).length;
+}
+```
+
+### Array.of()
+
+`Array.of`方法用于将一组值，转换为数组。如果参数为空，则返回一个空数组。
+
+```javascript
+Array.of(3, 11, 8) // [3,11,8]
+Array.of(3) // [3]
+Array.of(3).length // 1
+Array.of() // []
+Array.of(undefined) // [undefined]
+Array.of(1, 2) // [1, 2]
+```
+
+该方法的主要目的，是弥补数组构造函数`Array()`的不足。因为参数个数的不同，会导致`Array()`的行为有差异。
+
+```javascript
+Array() // [] 没有参数时，返回的时空数组
+Array(3) // [, , ,]  只有一个参数时，返回的是数组的长度
+Array(3, 11, 8) // [3, 11, 8]
+```
+
+兼容IE8:
+```javascript
+function ArrayOf(){
+  return [].slice.call(arguments);
+}
+```
+
+### copyWithin()
+
+`copyWithin`方法，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。**会修改当前数组**。
+
+```javascript
+Array.prototype.copyWithin(target, start = 0, end = this.length)
+```
+    * target（必需）：从该位置开始替换数据。
+    * start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示倒数。
+    * end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示倒数。
+
+```javascript
+[1, 2, 3, 4, 5].copyWithin(0, 3); // 同 [1, 2, 3, 4, 5].copyWithin(0, 3, 5)
+// [4, 5, 3, 4, 5]
+```
+
+更多例子:
+```javascript
+// 将3号位复制到0号位
+[1, 2, 3, 4, 5].copyWithin(0, 3, 4)
+// [4, 2, 3, 4, 5]
+
+// -2相当于3号位，-1相当于4号位
+[1, 2, 3, 4, 5].copyWithin(0, -2, -1)
+// [4, 2, 3, 4, 5]
+
+// 将3号位复制到0号位
+[].copyWithin.call({length: 5, 3: 1}, 0, 3)
+// {0: 1, 3: 1, length: 5}
+
+// 将2号位到数组结束，复制到0号位
+let i32a = new Int32Array([1, 2, 3, 4, 5]);
+i32a.copyWithin(0, 2);
+// Int32Array [3, 4, 5, 4, 5]
+
+// 对于没有部署 TypedArray 的 copyWithin 方法的平台
+// 需要采用下面的写法
+[].copyWithin.call(new Int32Array([1, 2, 3, 4, 5]), 0, 3, 4);
+// Int32Array [4, 2, 3, 4, 5]
+```
+
+### find(), findIndex()
+
+数组实例的`find`方法，用于找出第一个符合条件的数组成员, 返回该成员。如果没有符合条件的成员，则返回`undefined`。
+
+```javascript
+[1, 4, -5, 10].find((n) => n < 0)
+// -5
+
+[1, 5, 10, 15].find(function(value, index, arr) {
+  return value > 9;
+}) // 10
+```
+
+数组实例的`findIndex`方法的用法与`find`方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1。
+
+```javascript
+[1, 5, 10, 15].findIndex(function(value, index, arr) {
+  return value > 9;
+}) // 2
+```
+
+这两个方法都可以接受第二个参数，用来绑定回调函数的`this`对象。
+
+这两个方法都可以发现`NaN`，弥补了数组的`indexOf`方法的不足。
+
+```javascript
+[NaN].indexOf(NaN)
+// -1
+
+[NaN].findIndex(y => Object.is(NaN, y))
+// 0
+```
+
+上面代码中，`indexOf`方法无法识别数组的`NaN`成员，但是`findIndex`方法可以借助`Object.is`方法做到。
+
+### fill()
+
+`fill`方法使用给定值，填充一个数组。
+
+```javascript
+['a', 'b', 'c'].fill(7)
+// [7, 7, 7]
+
+new Array(3).fill(7)
+// [7, 7, 7]
+```
+
+`fill`方法还可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置。**会改变原数组**
+
+```javascript
+['a', 'b', 'c'].fill(7, 1, 2) // 从 1 号位开始，向原数组填充 7，到 2 号位之前结束。
+// ['a', 7, 'c']
+
+let arr = [1, 2, 3, 4];
+arr.fill(6, 1, 3); // [1, 6, 6, 4]
+```
+
+扩展：
+```javascript
+[].fill.call( { length : 3 }, 4) // {0: 4, 1: 4, 2: 4, length: 3}
+```
+
+
+
+
+
 
 
 
@@ -600,8 +837,66 @@ arr1.push(...arr2);
     ```
     上面的两种写法，`a2`都是`a1`的克隆。
 
+    * 合并数组
+
+    ```javascript
+    // ES5
+    [1, 2].concat(more)
+    // ES6
+    [1, 2, ...more]
+
+    var arr1 = ['a', 'b'];
+    var arr2 = ['c'];
+    var arr3 = ['d', 'e'];
+
+    // ES5的合并数组
+    arr1.concat(arr2, arr3);
+    // [ 'a', 'b', 'c', 'd', 'e' ]
+
+    // ES6的合并数组
+    [...arr1, ...arr2, ...arr3]
+    // [ 'a', 'b', 'c', 'd', 'e' ]
+    ```
+    * 与解构赋值结合
+
+    扩展运算符可以与解构赋值结合起来，用于生成数组。
+
+    ```javascript
+    // ES5
+    a = list[0], rest = list.slice(1)
+    // ES6
+    [a, ...rest] = list
+    ```
+
+    另外一些例子。
+
+    ```javascript
+    const [first, ...rest] = [1, 2, 3, 4, 5];
+    first // 1
+    rest  // [2, 3, 4, 5]
+
+    const [first, ...rest] = [];
+    first // undefined
+    rest  // []
+
+    const [first, ...rest] = ["foo"];
+    first  // "foo"
+    rest   // []
+    ```
+
+    如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。
+
+    ```javascript
+    const [...butLast, last] = [1, 2, 3, 4, 5];
+    // 报错
+
+    const [first, ...middle, last] = [1, 2, 3, 4, 5];
+    // 报错
+    ```
+
 
 参考文章：
+
   [Javascript标准参考教程 Array对象](http://javascript.ruanyifeng.com/stdlib/array.html)
 
-  [ECMAScript 6入门 数组的扩展](http://es6.ruanyifeng.com/#docs/array)
+  [ECMAScript6入门 数组的扩展](http://es6.ruanyifeng.com/#docs/array)
