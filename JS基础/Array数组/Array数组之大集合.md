@@ -4,7 +4,7 @@
 
 在我们的实际开发中，数组可谓是用到的最常见的数据结构了，随着js的发展，它的用法也越来越“高大上”，越来越强大。作为一名小菜鸟，也只对它一些常用的方法比较熟悉，有的时候甚至常用的都不熟悉。。。啊，说来惭愧。因此一直想要总结之，那么，今天！就是这一伟大时刻！！😎
 
-    写在前面：数组很多新方法ie低版本并不支持，可以来这儿[MDN Array](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)去看polyfill😎
+写在前面：数组很多新方法ie低版本并不支持，可以来这儿[MDN Array](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)去看polyfill😎
 
 集体照：
 
