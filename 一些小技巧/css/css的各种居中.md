@@ -36,7 +36,6 @@
 
 ### 行内元素水平居中
 
-`html`结构
 ```html
 <div class="parent">
    <span class="child">child</span>
@@ -97,7 +96,7 @@ html结构同`行内元素水平居中`
 ```
 
 ### 块级元素水平垂直居中
-`html`结构：
+
 ```html
 <div class="parent">
    <div class="child">child</div>
@@ -245,4 +244,5 @@ html结构同`行内元素水平居中`
 参考文章：
 
   [未知高度的图片在div设置垂直居中](http://www.cnblogs.com/leejersey/p/3780415.html)
+
   [CSS设置居中的方案总结-超全](https://juejin.im/post/5a7a9a545188257a892998ef)
