@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <style type="text/css">
+      #box{
+        width:500px;
+        height:400px;
+        display:table;
+        text-align:center;
+        border:1px solid #d3d3d3;
+        background:#fff;
+      }
+      #box span{
+        display:table-cell;
+        vertical-align:middle;
+      }
+      #box img{
+        border:1px solid #ccc;
+      }
+      </style>
+      <!--[if lte IE 7]>
+      <style type="text/css">
+      #box{
+          position:relative;
+          overflow:hidden;
+      }
+      #box span{
+          position:absolute;
+          left:50%;top:50%;
+      }
+      #box img{
+          position:relative;
+          left:-50%;top:-50%;
+      }
+      </style>
+      <![endif]-->
+  </head>
+  <body>
+    <div id="box">
+      <span>
+        <img src="./images/pic.jpg" alt="" />
+      </span>
+    </div>
+  </body>
+</html>
