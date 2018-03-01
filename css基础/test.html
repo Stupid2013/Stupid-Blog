@@ -4,28 +4,23 @@
     <meta charset="utf-8">
     <title>test demo</title>
     <style>
-      .wrapper {
-        margin: auto;
-        width: 200px;
-        height: 120px;
-        background: pink;
-        border: 1px solid #333;
-      }
-      .test {
-        background: purple;
-        color: white;
-      }
-
-      .test input {
-        vertical-align: 1px;
-      }
+    .parent {
+      width: 400px;
+      height: 300px;
+      background: #003366;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .child {
+      width: 100px;
+      height: 80px;
+      background: white;
+    }
     </style>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="test">
-        <input type="radio" name="test1" value="n" />昨天是晴天
-      </div>
+    <div class="parent">
+      <div class="child"></div>
     </div>
   </body>
 </html>
