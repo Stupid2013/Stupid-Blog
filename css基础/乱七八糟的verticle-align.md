@@ -6,7 +6,7 @@ emmm...写这个的初衷是：经常用vertical-align: middle都不起作用的
 
     vertical-align具有的属性：长度，百分值(%)，baseline(默认值)，sub，super，top，text-top，middle，bottom，text-bottom，inherit。
 
-**敲黑板：`vertical-align`只适用于`inline-level`元素，即`inline`,`inline-block`或`inline-table`。而且，位置都是相对于父元素的基线！！！**
+**敲黑板：`vertical-align`只适用于`inline-level`元素，即`inline`,`inline-block`或`inline-table`。**
 
 属性的含义：
 
