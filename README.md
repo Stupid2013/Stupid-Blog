@@ -1,6 +1,10 @@
 # 死兔比的Blog 😎
 
-### JS基础
+### 一、css基础
+
+  [乱七八糟的vertical-align](./css基础/乱七八糟的verticle-align.md)
+
+### 二、JS基础
 
 * Array数组
 
@@ -10,11 +14,7 @@
 
   [ie8-array-compatibility-polyfill](./JS基础/Array数组/ie8-array-compatibility-polyfill.js)
 
-### css基础
-
-[乱七八糟的vertical-align](./css基础/乱七八糟的verticle-align.md)
-
-### 一些小技巧
+### 三、一些小技巧
 
 * css
 
