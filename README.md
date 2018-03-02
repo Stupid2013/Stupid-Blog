@@ -6,7 +6,7 @@
 
   [Array数组方法大集合](./JS基础/Array数组/Array数组方法大集合.md)
 
-  [forEach()和map()的区别以及如何兼容IE8](./JS基础/Array数组/forEach和 map的区别以及如何兼容IE8.md)
+  [forEach和map的区别以及如何兼容IE8](./JS基础/Array数组/forEach和 map的区别以及如何兼容IE8.md)
 
   [ie8-array-compatibility-polyfill](./JS基础/Array数组/ie8-array-compatibility-polyfill.js)
 
