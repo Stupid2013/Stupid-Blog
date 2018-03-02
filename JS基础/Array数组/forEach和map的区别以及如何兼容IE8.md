@@ -1,4 +1,4 @@
-## forEach()和 map()的区别以及如何兼容IE8
+## forEach()和map()的区别以及如何兼容IE8
 
 2017-12-05
 
@@ -188,7 +188,7 @@ var f = function(n){ return n + 1 };
   * @param context [object] 上下文；
   */
 
-  if (typeof Array.prototype.forEach !== "function") {  // (!Array.prototype.forEach) 也可以作为判断条件 
+  if (typeof Array.prototype.forEach !== "function") {  // (!Array.prototype.forEach) 也可以作为判断条件
      Array.prototype.forEach = function myForEach(callback,context){
          context = context || window;
          //IE6-8下自己编写回调函数执行的逻辑
