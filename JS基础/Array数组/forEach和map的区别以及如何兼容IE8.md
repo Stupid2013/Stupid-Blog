@@ -233,6 +233,7 @@ var f = function(n){ return n + 1 };
 ```
 
 参考：
+
 [原生JS forEach()和map()遍历的区别以及兼容写法](http://blog.csdn.net/huangpb123/article/details/52756303#)
 
 [Javascript标准参考教程 Array对象](http://javascript.ruanyifeng.com/stdlib/array.html)
