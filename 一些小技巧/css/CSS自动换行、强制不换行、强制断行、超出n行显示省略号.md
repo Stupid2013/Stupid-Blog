@@ -35,7 +35,7 @@
 
   `break-word`: 表示如果行内没有多余的地方容纳该单词到结尾，则那些正常的不能被被分割的单词会被强制分割换行。
 
-  **注意: **CSS3规范里，把`word-wrap`属性的名称给改了，叫做：`overflow-wrap`。然而，只有`Chrome/Safari`等`WebKit/Blink`浏览器支持。所以，还是用`word-wrap`比较多。
+  **注意: ** CSS3规范里，把`word-wrap`属性的名称给改了，叫做：`overflow-wrap`。然而，只有`Chrome/Safari`等`WebKit/Blink`浏览器支持。所以，还是用`word-wrap`比较多。
 
 3. **white-space**
 
@@ -81,6 +81,7 @@
   }
   ```
   ![pic2](./images/pic2.png)
+
 2. div超出2行隐藏并显示省略号
 
   ```html
