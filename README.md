@@ -20,7 +20,7 @@
 
   [css的各种居中](./一些小技巧/css/css的各种居中.md)
 
-  [word-break、white-space、word-wrap异同及其应用实例](./一些小技巧/css/word-break、white-space、word-wrap异同及其应用实例.md)
+  [word-break、white-space、word-wrap异同及其应用实例](./一些小技巧/css/CSS自动换行、强制不换行、强制断行、超出n行显示省略号.md)
 
 * js
 
