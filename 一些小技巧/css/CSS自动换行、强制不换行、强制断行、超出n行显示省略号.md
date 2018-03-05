@@ -44,12 +44,12 @@
   MDN-语法:
 
   ```css
-  white-space: normal
-  white-space: nowrap
-  white-space: pre
-  white-space: pre-wrap
-  white-space: pre-line
-  white-space: inherit
+  white-space: normal;
+  white-space: nowrap;
+  white-space: pre;
+  white-space: pre-wrap;
+  white-space: pre-line;
+  white-space: inherit;
   ```
 
   其中:
