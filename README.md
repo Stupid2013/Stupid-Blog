@@ -19,6 +19,7 @@
 * css
 
   [css的各种居中](./一些小技巧/css/css的各种居中.md)
+  [word-break、white-space、word-wrap异同及其应用实例](./一些小技巧/css/word-break、white-space、word-wrap异同及其应用实例.md)
 
 * js
 
