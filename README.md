@@ -8,7 +8,7 @@
 
 * Array
 
-  [Array数组方法大集合](./js/Array数组/Array数组方法大集合.md)
+  [Array数组方法大集合](./js/Array/Array数组方法大集合.md)
 
   [forEach()和map()的区别以及如何兼容IE8](./js/Array/forEach和map的区别以及如何兼容IE8.md)
 
