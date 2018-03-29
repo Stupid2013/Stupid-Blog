@@ -13,6 +13,7 @@
   [forEach()和map()的区别以及如何兼容IE8](./js/Array/forEach和map的区别以及如何兼容IE8.md)
 
   [ie8-array-compatibility-polyfill](./js/Array/ie8-array-compatibility-polyfill.js)
+  [数组去重的N种方法](./js/Array/数组去重的N种方法.md)
 
 ### 三、tips
 

@@ -11,80 +11,16 @@
      * 数组去重
      */
 
-    // const test = [1,2,3,2,1];
-    // const arr = [];
-    // const obj = {};
-    // for (let i = 0; i < test.length; i++) {
-    //   if (!obj[test[i]]) {
-    //     obj[test[i]] = 1;
-    //     arr.push(test[i]);
-    //   }
-    // }
-    // console.log('=== arr ', arr);
-
-      const students = [{
-        name: '张三',
-        serial: '0001'
-      }, {
-        name: '李四',
-        serial: '0002'
-      }, {
-        name: '王五',
-        serial: '0003'
-      }, {
-        name: '王五2',
-        serial: '0003'
-      }, {
-        name: '赵四',
-        serial: '0004'
-      }, {
-        name: '小明',
-        serial: '005'
-      }, {
-        name: '小张',
-        serial: '006'
-      }, {
-        name: '小李',
-        serial: '006'
-      }, {
-        name: '小李2',
-        serial: '006'
-      }, {
-        name: '赵四2',
-        serial: '0004'
-      }];
-      /**
-       * 根据serial筛选重复的，删除后面的
-       * 方法一：用splice()
-       */
-      // for (let i = 0; i < students.length; i++) {
-      //   let repeat = 0;
-      //   for (let j = 0; j < students.length; j++) {
-      //     if (students[i].serial === students[j].serial) {
-      //       repeat++;
-      //       if (repeat > 1) {
-      //         students.splice(j, 1);
-      //       }
-      //     }
-      //   }
-      // }
-
-      /**
-       * 方法二： 使用push()
-       */
-      // const arr = [];
-      // for (let i = 0, l = students.length; i < l; i++) { // let i = 0, l = students.length; i < l; i++这样的写法效率高于i<students.length
-      //   let index = 0;
-      //   for (let j = 0, length = arr.length; j < length; j++) {
-      //     if (students[i].serial === arr[j].serial) {
-      //       index++;
-      //     }
-      //   }
-      //   if (index === 0) {
-      //     arr.push(students[i]);
-      //   }
-      // }
-      // console.log('=== arr ', arr);
+    const test = [1,2,3,2,1];
+    const arr = [];
+    const obj = {};
+    for (let i = 0; i < test.length; i++) {
+      if (!obj[test[i]]) {
+        obj[test[i]] = 1;
+        arr.push(test[i]);
+      }
+    }
+    console.log('=== arr ', arr);
 
       /**
        * 排序算法
