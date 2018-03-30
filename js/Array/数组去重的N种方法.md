@@ -10,7 +10,7 @@ const array = ['abc','abc','sss','2','d','t','2','sss', 'ss', 'f', 'a', 'A', 'A'
 ```javascript
 const arr = [];
 for(let i = 0;i < array.length; i++){
-  if(arr.indexOf(array[i]) == -1){  //判断在s数组中是否存在，不存在则push到s数组中
+  if(arr.indexOf(array[i]) == -1){
     arr.push(array[i]);
   }
 }
@@ -77,7 +77,6 @@ console.log('=== arr ', arr);
 ```
 
 5. `filter()`
-这是`es5`的新方法
 ```javascript
 Array.prototype.unique = function() {
   var sortArr = this.sort();
@@ -163,7 +162,7 @@ Array.prototype.unique = function() {
 #### 二、子元素为对象的数组去重
 原数组:
 ```javascript
-const students = [{
+let students = [{
   name: '张三',
   serial: '0001'
 }, {
@@ -245,5 +244,17 @@ for(let i = 0; i < array.length; i++) {
 console.log('=== arr ', arr);
 ```
 注: `splice()`和`push()`是最基本的两种方法，所以在低版本`IE`里兼容性也是杠杠的！
+
+3. `reduce()`
+```javascript
+const obj = {};
+students = students.reduce((cur,next) => {
+    obj[next.serial] ? "" : obj[next.serial] = true && cur.push(next);
+    return cur;
+},[]) //设置cur默认类型为数组，并且初始值为空的数组
+console.log('== students ', students);
+```
+
+注：文中提到的方法其实基本上都是可以在简单数组和对象数组中实现去重的~~~
 
 说明： 文中部分代码参考自网上的各种代码，比较多，也比较杂，就不一一列举了。。。你一搜，就都出来啦😂
