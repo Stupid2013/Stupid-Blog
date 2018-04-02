@@ -10,7 +10,7 @@ const array = ['abc','abc','sss','2','d','t','2','sss', 'ss', 'f', 'a', 'A', 'A'
 ```javascript
 const arr = [];
 for(let i = 0;i < array.length; i++){
-  if(arr.indexOf(array[i]) == -1){
+  if(arr.indexOf(array[i]) === -1){
     arr.push(array[i]);
   }
 }
@@ -62,17 +62,16 @@ console.log('=== arr ', arr);
 // 方法二
 const arr = [];
 array.forEach((item, i, ar) => {  //这里利用map，filter方法也可以实现
-  if(ar.indexOf(item,i+1) === -1){ //从传入参数的下一个索引值开始寻找是否存在重复
+  if(ar.indexOf(item, i+1) === -1){ //从传入参数的下一个索引值开始寻找是否存在重复
     arr.push(item);
   }
 })
 console.log('=== arr ', arr);
-// 其实原理和方法一好像是一样的。。。。阿西吧，没理解到，理解到再追
 ```
 
 4. `filter()`和`indexOf()`
 ```javascript
-const arr = array.filter((m, n) => (array.indexOf(m) == n));
+const arr = array.filter((m, n) => (array.indexOf(m) === n));
 console.log('=== arr ', arr);
 ```
 
