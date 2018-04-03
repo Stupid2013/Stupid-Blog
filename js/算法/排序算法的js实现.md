@@ -1,10 +1,14 @@
-### 排序算法
+### 排序算法的js实现
 
 2018-04-02
 
 1、冒泡排序
+
+**原始的冒泡排序**
+
 ```javascript
 const order = [6, 3, 8, 2, 9, 1];
+console.time('冒泡排序耗时');
 for(let i = 0; i < order.length - 1; i++){ //外层循环控制排序趟数
   for(let j = 0; j < order.length - 1 - i; j++){ //内层循环控制每一趟排序多少次
     if(order[j] > order[j+1]){
@@ -12,8 +16,13 @@ for(let i = 0; i < order.length - 1; i++){ //外层循环控制排序趟数
       order[j] = order[j+1];
       order[j+1] = temp;
     }
+    // console.log('==== i ', i);
+    // console.log('==== j ', j);
+    // console.log('=== order ', order);
   }
+  // console.log('-----------------------------');
 }
+console.timeEnd('冒泡排序耗时');
 ```
 原理：相邻的两个元素进行比较，将值大的元素交换至右边。
 
@@ -87,6 +96,60 @@ for(let i = 0; i < order.length - 1; i++){ //外层循环控制排序趟数
 
 冒泡排序的优点：每进行一趟排序，就会少比较一次，因为每进行一趟排序都会找出一个较大值。
 
+**进化版**
+
+设置一标志性变量`pos`,用于记录每趟排序中最后一次进行交换的位置。由于`pos`位置之后的记录均已交换到位,故在进行下一趟排序时只要扫描到`pos`位置即可。
+
+```javascript
+const order = [6, 3, 8, 2, 9, 1];
+console.time('改进后冒泡排序耗时');
+var i = order.length-1;  //初始时,最后位置保持不变
+while ( i > 0) {
+    var pos= 0; //每趟开始时,无记录交换
+    for (var j= 0; j< i; j++) {
+      if (order[j]> order[j+1]) {
+        pos= j; //记录交换的位置
+        var tmp = order[j]; order[j]=order[j+1];order[j+1]=tmp;
+      }
+    }
+    i = pos; //为下一趟排序作准备
+ }
+ console.timeEnd('改进后冒泡排序耗时');
+```
+
+**升级版**
+
+传统冒泡排序中每一趟排序操作只能找到一个最大值或最小值,我们考虑利用在每趟排序中进行正向和反向两遍冒泡的方法一次可以得到两个最终值(最大者和最小者) , 从而使排序趟数几乎减少了一半。
+
+```javascript
+var low = 0;
+var high= order.length-1; //设置变量的初始值
+var tmp,j;
+console.time('升级版冒泡排序耗时');
+while (low < high) {
+    for (j= low; j< high; ++j) { //正向冒泡,找到最大者
+      if (order[j]> order[j+1]) {
+          tmp = order[j]; order[j]=order[j+1];order[j+1]=tmp;
+      }
+    }
+    --high;                 //修改high值, 前移一位
+    for (j=high; j>low; --j) { //反向冒泡,找到最小者
+      if (order[j]<order[j-1]) {
+          tmp = order[j]; order[j]=order[j-1];order[j-1]=tmp;
+      }
+    }
+    ++low;                  //修改low值,后移一位
+}
+console.timeEnd('升级版冒泡排序耗时');
+```
+
+数据量小的时候， 其实可以看出来三种方法的区别是不大的，理论上应该越来越快的（毕竟比较次数越来越少），数据多的时候应该比较明显 = = 无聊的时候可以一试 = =
+
+实际上，我的结论是：数据量小的时候其实速度还是相反的！！！（比如上面的demo里的数据，执行时间依次大概是：0.021，0.032，0.033）大概是因为后面两种方法定义和判断多一些吧！
+
+
 参考文章：
 
   [Java中的经典算法之冒泡排序(Bubble Sort)](https://www.cnblogs.com/shen-hua/p/5422676.html)
+
+  [十大经典排序算法](http://blog.damonare.cn/2016/12/20/%E5%8D%81%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%EF%BC%88javascript%E6%8F%8F%E8%BF%B0%EF%BC%89/)

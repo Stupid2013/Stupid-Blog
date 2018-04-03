@@ -11,23 +11,70 @@
        * 排序算法
        */
 
-      // 冒泡
+      // 冒泡排序
+
       // const order = [6, 3, 8, 2, 9, 1];
-      const order = [1,2,3,4,5];
-      for(let i = 0; i < order.length - 1; i++){ //外层循环控制排序趟数
-        for(let j = 0; j < order.length - 1 - i; j++){ //内层循环控制每一趟排序多少次
-          if(order[j] > order[j+1]){
-            let temp = order[j];
-            order[j] = order[j+1];
-            order[j+1] = temp;
-          }
-          console.log('==== i ', i);
-          console.log('==== j ', j);
-          console.log('=== order ', order);
-        }
-        console.log('-----------------------------');
-      }
-      // console.log('=== order ', order);
+      // ------ 1
+      // console.time('冒泡排序耗时');
+      // for(let i = 0; i < order.length - 1; i++){ //外层循环控制排序趟数
+      //   for(let j = 0; j < order.length - 1 - i; j++){ //内层循环控制每一趟排序多少次
+      //     if(order[j] > order[j+1]){
+      //       let temp = order[j];
+      //       order[j] = order[j+1];
+      //       order[j+1] = temp;
+      //     }
+      //     // console.log('==== i ', i);
+      //     // console.log('==== j ', j);
+      //     // console.log('=== order ', order);
+      //   }
+      //   // console.log('-----------------------------');
+      // }
+      // console.timeEnd('冒泡排序耗时');
+
+      // ------- 2
+      // console.time('改进后冒泡排序耗时');
+      // var i = order.length-1;  //初始时,最后位置保持不变
+      // while ( i > 0) {
+      //     var pos= 0; //每趟开始时,无记录交换
+      //     for (var j= 0; j< i; j++) {
+      //       if (order[j]> order[j+1]) {
+      //         pos= j; //记录交换的位置
+      //         var tmp = order[j]; order[j]=order[j+1];order[j+1]=tmp;
+      //       }
+      //       // console.log('i', i);
+      //       // console.log('j', j);
+      //       // console.log('=== order ', order);
+      //     }
+      //     i = pos; //为下一趟排序作准备
+      //     // console.log('-----------------------------');
+      //  }
+      //  console.timeEnd('改进后冒泡排序耗时');
+
+      // ------- 3
+      // var low = 0;
+      // var high= order.length-1; //设置变量的初始值
+      // var tmp,j;
+      // console.time('升级版冒泡排序耗时');
+      // while (low < high) {
+      //     for (j= low; j< high; ++j) { //正向冒泡,找到最大者
+      //       if (order[j]> order[j+1]) {
+      //           tmp = order[j]; order[j]=order[j+1];order[j+1]=tmp;
+      //       }
+      //     }
+      //     --high;                 //修改high值, 前移一位
+      //     for (j=high; j>low; --j) { //反向冒泡,找到最小者
+      //       if (order[j]<order[j-1]) {
+      //           tmp = order[j]; order[j]=order[j-1];order[j-1]=tmp;
+      //       }
+      //     }
+      //     ++low;                  //修改low值,后移一位
+      //     // console.log('=== low ', low);
+      //     // console.log('=== high ', high);
+      //     // console.log('=== order ', order);
+      //     // console.log('-----------------------------');
+      // }
+      // console.timeEnd('升级版冒泡排序耗时');
+
 
     </script>
   </body>
