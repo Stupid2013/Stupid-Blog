@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>prototype实现js单链表</title>
+ <script>
+  function Node(element) {
+    this.element = element; // 当前节点的数据
+    this.next = null; // 下一个节点的数据
+  }
+
+  function LinkedList() {
+    this.head = new Node('head'); // 头节点
+  }
+
+  LinkedList.prototype = {
+    // 查找某一个节点
+    find: function(item) {
+      var currentNode = this.head;
+      while(currentNode.element != item) {
+        currentNode = currentNode.next;
+      }
+      return currentNode;
+    },
+
+    // 向某一元素后插入新节点
+    insert: function(newItem, item) {
+      var newNode = new Node(newItem);
+      var currentNode = this.find(item);
+      newNode.next = currentNode.next;
+      currentNode.next = newNode;
+    },
+
+    // 查找某一个节点的前一个节点
+    findPrevious: function(item) {
+      var currentNode = this.head;
+      while(!(currentNode == null) && (currentNode.next.element != item)) {
+        currentNode = currentNode.next;
+      }
+      return currentNode;
+    },
+
+    // 删除某个节点
+    remove: function(item) {
+      var prevNode = this.findPrevious(item);
+      if(prevNode.next != null) {
+        prevNode.next = prevNode.next.next;
+      }
+    },
+
+    // 修改某个节点的数据
+    edit: function(item, newItem) {
+      var element = this.find(item);
+      element.element = newItem;
+    },
+
+    // 打印所有节点, 可以视为顺序遍历吧～
+    display: function() {
+      var currentNode = this.head;
+      while(currentNode.next != null) {
+        console.log(currentNode.next.element);
+        currentNode = currentNode.next;
+      }
+    }
+  }
+
+  var names = new LinkedList();
+  names.insert('张三', 'head');
+  names.insert('李四', '张三');
+  names.insert('王五', '李四');
+  names.display();
+
+  names.remove('李四');
+  names.display();
+
+  names.edit('王五', '王老五');
+  names.display();
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>
