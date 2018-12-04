@@ -57,11 +57,63 @@
     // 打印所有节点, 可以视为顺序遍历吧～
     display: function() {
       var currentNode = this.head;
+      var result = "";
       while(currentNode.next != null) {
-        console.log(currentNode.next.element);
+        result += `${currentNode.next.element} `; // 跳过头节点
         currentNode = currentNode.next;
       }
+      console.log(result);
+    },
+  }
+
+  // 反转单链表(比较完美且优雅的实现～) 来自：https://www.jianshu.com/p/4e8e29bda969
+  function reverseLinkedList(list) {
+    // 闭包
+    var head = list.head;
+    if (head === undefined || head === null) return null;
+    var originalHead = head;
+    var reverseHead;
+    var reverse = function (hed) {
+      if (hed.next === null) {
+        reverseHead = hed;
+        return hed;
+      } else {
+        var node = reverse(hed.next);
+        node.next = hed;
+        if (originalHead === hed) {
+          hed.next = null;
+          return reverseHead;
+        } else {
+          return hed;
+        }
+      }
     }
+    return reverse(head);
+  }
+
+
+// 反转单链表方法二 来自：https://blog.csdn.net/lizhengxv/article/details/81669248
+  function reverse( list ){
+    var head = list.head;
+
+    // 如果只有一个节点 或者 是空链表
+    if( head === null || head.next === null ){
+        return;
+    }
+    var p = head;
+    var q = p.next;
+    // 反转后的头结点变成尾节点
+    head.next = null;
+    while(q){
+      r = q.next;
+      q.next = p;
+      p = q;
+      q = r;
+    }
+    // 退出循环后 r = q.next = null, q.next = q; p=q; q=null;
+    // p指向原来节点的尾节点， 那么翻转后，尾节点变成头结点
+    list.head = p;
+    return list;
   }
 
   var names = new LinkedList();
@@ -75,6 +127,9 @@
 
   names.edit('王五', '王老五');
   names.display();
+
+  // console.log('---- reverseLinkedList ', reverseLinkedList(names));
+  // console.log('---- reverseLinkedList 222', reverse(names));
  </script>
  </head>
  <body>

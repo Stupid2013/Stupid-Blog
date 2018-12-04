@@ -22,7 +22,7 @@
 
 [prototype实现js单链表](./codes/链表/prototype实现js单链表.html)
 
-[this实现js单链表](./codes/链表/this实现js单链表.html)
+[this实现js单链表](./codes/链表/this实现js单链表.html) --- 没有Head头部的实现方式～
 
 参考文章：
 

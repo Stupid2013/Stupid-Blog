@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>js实现双向链表2</title>
+ <script>
+
+    function Node(element) {
+        this.element = element;
+        this.next = null;
+        this.previous = null; //双向链表在这里需要增加一个previous属性
+    }
+
+    function DoublyLinkedList() {
+        this.head = new Node("head");
+        this.find = function(item) { // 查找某个节点
+          var currNode = this.head;
+          while (currNode.element != item) {
+              currNode = currNode.next;
+          }
+          return currNode;
+        };
+        this.append = function(newItem) { // 新增元素在链表最后
+          var newNode = new Node(newItem);
+          var lastNode = this.findLast();
+          newNode.next = lastNode.next;
+          newNode.previous = lastNode; //双向链表在这里需要设置新节点previous属性
+          lastNode.next = newNode;
+        }
+        this.insert = function(newElement, item) { // 在某个元素后插入新节点
+          var newNode = new Node(newElement);
+          var current = this.find(item);
+          newNode.next = current.next;
+          newNode.previous = current;
+          current.next = newNode;
+        };
+        this.display = function() { // 顺序遍历打印
+          var currNode = this.head;
+          var nodestr = "";
+          while (!(currNode.next == null)) {
+              nodestr += currNode.next.element + " ";
+              currNode = currNode.next;
+          }
+          console.log(nodestr);
+        };
+        this.remove = function(item) { // 移除某个元素
+          var currNode = this.find(item);
+          if (!(currNode.next == null)) {
+              currNode.previous.next = currNode.next;
+              currNode.next.previous = currNode.previous;
+              currNode.next = null;
+              currNode.previous = null;
+          }
+        };
+        this.findLast = function() { // 查找最后一个节点
+          var currNode = this.head;
+          while (!(currNode.next == null)) {
+              currNode = currNode.next;
+          }
+          return currNode;
+        };
+        this.dispReverse = function() { // 反向遍历打印
+          var currNode = this.head;
+          currNode = this.findLast();
+          var nodestr = "";
+          while (!(currNode.previous == null)) {
+              nodestr += currNode.element + " ";
+              currNode = currNode.previous;
+          }
+          console.log("将链表反向遍历后: "+nodestr);
+        };
+    }
+
+    var cities = new DoublyLinkedList();
+    cities.insert("成都", "head");
+    cities.insert("泸州", "成都");
+    cities.insert("绵阳", "泸州");
+    cities.insert("自贡", "绵阳");
+    cities.append("攀枝花");
+    cities.display(); // 成都 泸州 绵阳 自贡 攀枝花
+    cities.remove("泸州");
+    cities.display(); // 成都 绵阳 自贡 攀枝花
+    cities.dispReverse(); // 将链表反向遍历后：攀枝花 自贡 绵阳 成都
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>

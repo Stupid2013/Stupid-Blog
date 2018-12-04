@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>js实现双向链表</title>
+ <script>
+  function DoublyLinkedList () {
+    var Node = function (element) {
+        this.element = element;
+        this.next = null;
+        this.prev = null; //新
+    };
+    var length = 0;
+    var head = null;
+    var tail = null; //新 对最后一项的引用
+
+    //方法
+    this.append = function (element) {
+      var node = new Node(element),
+          current;
+
+      if (head === null) { //链表为空，添加到首部
+          head = node;
+          tail = node; //新
+      } else {
+          current = head;
+          //循环链表，直到找到最后一项
+          while (current.next) {
+              current = current.next;
+          }
+          //找到最后一项，将其next赋为node，建立连接
+          current.next = node;
+          tail = node; //新
+        }
+        length++;
+    };
+    this.insert = function (position, element) {
+      //检查是否越界
+      if (position >= 0 && position <= length) {
+          var node = new Node(element),
+              current = head,
+              previous,
+              index = 0;
+
+          if (position === 0) { //在第一个位置添加
+              if (!head) { //新
+                  head = node;
+                  tail = node;
+              }else {
+                  node.next = current;
+                  current.prev = node; //新
+                  head = node;            
+              }
+          }else if (position === length) { //新 最后一项
+              //改变指针，再把node赋值给tail
+              current = tail;
+              current.next = node;
+              node.prev = current;
+              tail = node;
+          }else {
+              while (index++ < position) {
+                  previous = current;
+                  current = current.next;
+              }
+              //通过改变指针，将node链接在previous和current之间
+              node.next = current;
+              previous.next = node;
+
+              current.prev = node; //新
+              node.prev = previous; //新
+          }
+        length++;
+        return true;
+      } else {
+        return false;
+      }
+    };
+    this.removeAt = function (position) {
+      //检查是否越界
+      if (position > -1 && position < length) {
+          var current = head,
+              previous,
+              index = 0;
+
+          if (position === 0) { //移除第一项
+            head = current.next;
+            //新 如果只有一项，更新tail
+            if (length === 1) {
+              tail = null;
+            }else {
+              head.prev = null;
+            }
+          }else if(position === length - 1) { //新 最后一项
+            current = tail;
+            tail = current.prev;
+            tail.next = null;
+          }else {
+            while (index++ < position) {
+              previous = current;
+              current = current.next;
+            }
+            //将previous与current的下一项链接起来，跳过current，从而移除它
+            previous.next = current.next;
+            current.next.prev = previous; //新
+          }
+        length--;
+        return current.element;
+      }else {
+        return null;
+      }
+    };
+    this.remove = function (element) { // 从链表中移除一项
+      var index = this.indexOf(element);
+      return this.removeAt(index);
+    };
+    this.indexOf = function (element) { // 返回元素在链表中的索引，如果没有则返回-1
+      var current = head,
+          index = 0;
+      while (current) {
+        if (current.element === element) {
+          return index;
+        }
+        index++;
+        current = current.next;
+      }
+      return -1;
+    };
+    this.isEmpty = function () { //判断链表是否为空
+      return length === 0;
+    };
+    this.size = function () { return length; }; //返回链表包含元素个数
+    this.getHead = function () { //返回链表第一个元素
+      return head; //head是一个私有变量，当需要在类的实现外部循环访问链表时，就可以使用getHead方法获取类的第一个元素
+    }; 
+    this.toString = function () { //只输出元素的值
+      var current = head,
+          string = "";
+      while (current) {
+        string += "," + current.element;
+        current = current.next;
+      }
+      return string.slice(1);
+    };
+    this.print = function () { console.log( this.toString() ); }; //打印元素的值
+
+    this.findLast = function() {//查找链表的最后一个节点
+      var currentNode = head;
+      while (currentNode.next != null) {
+        currentNode = currentNode.next;
+      }
+      return currentNode;
+    }
+  }
+
+  var double = new DoublyLinkedList(); //实例化一个对象
+  double.append('123');
+  double.print(); // 123
+
+  double.append('456');
+  double.print(); // 123,456
+
+  double.append('789');
+  double.print(); // 123,456,789
+  
+  double.insert(1, 'add1');
+  double.print(); // 123,add1,456,789
+
+  double.insert(3, 'add2');
+  double.print(); // 123,add1,456,add2,789
+
+  double.insert(7, 'add3'); // 出界，不会打印
+  double.print(); // 123,add1,456,add2,789
+
+  double.removeAt(2);
+  double.print(); // 123,add1,add2,789
+
+  double.removeAt(5); // 出界
+  double.print(); // 123,add1,add2,789
+
+  // console.log('--- double ', double.getHead());
+
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>
