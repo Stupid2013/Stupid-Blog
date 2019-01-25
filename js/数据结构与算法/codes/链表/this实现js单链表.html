@@ -117,31 +117,47 @@
 
   var test = new LinkedList(); //实例化一个对象
   
-  test.append('123');
-  test.print(); // 123
+  // test.append('123');
+  // test.print(); // 123
 
-  test.append('456');
-  test.print(); // 123,456
+  // test.append('456');
+  // test.print(); // 123,456
 
-  test.append('789');
-  test.print(); // 123,456,789
+  // test.append('789');
+  // test.print(); // 123,456,789
   
-  test.insert(1, 'add1');
-  test.print(); // 123,add1,456,789
+  // test.insert(1, 'add1');
+  // test.print(); // 123,add1,456,789
 
-  test.insert(3, 'add2');
-  test.print(); // 123,add1,456,add2,789
+  // test.insert(3, 'add2');
+  // test.print(); // 123,add1,456,add2,789
 
-  test.insert(7, 'add3'); // 出界，不会打印
-  test.print(); // 123,add1,456,add2,789
+  // test.insert(7, 'add3'); // 出界，不会打印
+  // test.print(); // 123,add1,456,add2,789
 
-  test.removeAt(2);
-  test.print(); // 123,add1,add2,789
+  // test.removeAt(2);
+  // test.print(); // 123,add1,add2,789
 
-  test.removeAt(5); // 出界
-  test.print(); // 123,add1,add2,789
+  // test.removeAt(5); // 出界
+  // test.print(); // 123,add1,add2,789
 
-  // console.log('---- test ', test.getHead());
+  test.append('add1');
+  test.append('add2');
+  test.append('add1'); // 出界，不会打印
+
+  console.log(test.getHead());
+  const link = test.getHead();
+  const isPalindrome = function(head) { // 判断是否为回文链表
+    let str = '',             // 正向
+        str_reverse = ''      // 反向
+    while (head) {
+      str += head.element;
+      str_reverse = head.element + str_reverse;
+      head = head.next;
+    }
+    return str === str_reverse;
+  };
+  console.log('--- isPalindrome(link) ', isPalindrome(link));
  </script>
  </head>
  <body>

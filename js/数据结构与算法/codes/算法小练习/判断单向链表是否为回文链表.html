@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>判断单向链表是否为回文链表</title>
+ <script>
+  
+  /*
+    请判断一个链表是否为回文链表。
+
+    示例 1:
+
+    输入: 1->2
+    输出: false
+    示例 2:
+
+    输入: 1->2->2->1
+    输出: true
+    进阶：
+    你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+
+    思路: O(n)的时间复杂度意味着只能遍历一趟链表，O(1)的空间复杂度意味着只能使用常数个变量（也就是不能使用数组、集合等变量）。
+
+    于是想到，设置两个字符串变量，一个保存正向的链表元素，一个保存反向的链表元素，遍历完判断是否相等即可。
+
+    来自： https://blog.csdn.net/romeo12334/article/details/82530228
+  */
+  const isPalindrome = function(head) {
+    let str = '',             // 正向
+        str_reverse = ''      // 反向
+    while (head) {
+      str += head.val;
+      str_reverse = head.val + str_reverse;
+      head = head.next;
+    }
+    return str === str_reverse;
+  };
+  const test = {
+    val: 1,
+    next: {
+      val: 2,
+      next: {
+        val: 2,
+        next: {
+          val: 3,
+          next: null,
+        }
+      }
+    }
+  }
+  console.log('--- test ', test);
+  console.log('-- 链表test是否是回文链表 ', isPalindrome(test));
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>进制转换</title>
+ <script>
+  
+/**
+ * 进制转换函数
+ * @param  string     num  待转换的进制数，如 110(二进制),26(八进制),10(十进制),AF(十六进制)
+ * @param  Interger   from 源进制 2|8|10|16
+ * @param  Interger   to   目标进制 2|8|10|16
+ * @return 转换结果
+ */
+function convert(num,from,to){
+	var pattern=/^(2|8|10|16){1}$/;
+	if(!pattern.test(from)||!pattern.test(to)){
+		console.error('源进制from和目标进制to必须都为[2,8,10,16]其中的数字');
+		return;
+	}
+	//如果源进制为十进制
+	if(from==10){
+		return parseInt(num).toString(to);
+	}
+	//如果目标进制是十进制
+	if(to==10){
+		return parseInt(num,from);
+	}
+    //其他进制的转换
+  return parseInt(num,from).toString(to);
+}
+
+console.log(convert(10,10,2));  // 十进制转成二进制，1010
+console.log(convert(11,10,16));  // 十进制转成十六进制，b
+console.log(convert(1111,2,16));  // 二进制转成十六进制，f
+console.log(convert(1111,2,10));  // 15
+console.log(convert('16d', 16, 2)); // 十六进制专程二进制，101101101
+console.log(convert(16, 16, 2)); // 十六进制专程二进制，10110
+console.log(convert(16, 16, 10)); // 22
+console.log(convert('01111', 8, 2)); // 1001001001
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>实现一个数字的反转</title>
+ <script>
+  const reverseNumber = (init) => {
+    let after = 0;
+    for (after = 0; init != 0; init = init / 10 >> 0) {
+      after = after * 10 + init % 10;
+    }
+    console.log(after);
+  };
+
+  const reverse = (init) => {
+    let bb = 0;
+    while (init) {
+      bb = bb*10+init%10;
+      init = init/10>>0;
+    }
+    console.log(bb);
+  }
+  reverseNumber(123);
+  reverseNumber(-234);
+  reverse(-2000); // 其实两种方式是一样的
+  reverse(30)
+  reverse(3245)
+ </script>
+ </head>
+ <body>
+  
+ </body>
+</html>

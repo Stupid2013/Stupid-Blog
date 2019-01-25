@@ -64,6 +64,16 @@
       }
       console.log(result);
     },
+    isPalindrome: function(head) { // 判断是否为回文链表
+      let str = '',             // 正向
+          str_reverse = ''      // 反向
+      while (head) {
+        str += head.element;
+        str_reverse = head.element + str_reverse;
+        head = head.next;
+      }
+      return str === str_reverse;
+    },
   }
 
   // 反转单链表(比较完美且优雅的实现～) 来自：https://www.jianshu.com/p/4e8e29bda969
@@ -117,16 +127,23 @@
   }
 
   var names = new LinkedList();
-  names.insert('张三', 'head');
-  names.insert('李四', '张三');
-  names.insert('王五', '李四');
-  names.display();
+  // names.insert('张三', 'head');
+  // names.insert('李四', '张三');
+  // names.insert('王五', '李四');
+  // names.display();
 
-  names.remove('李四');
-  names.display();
+  // names.remove('李四');
+  // names.display();
 
-  names.edit('王五', '王老五');
+  // names.edit('王五', '王老五');
+  // names.display();
+  names.insert(1, 'head');
+  names.insert(2, 1);
+  names.insert(1, 2);
   names.display();
+  console.log('--- names ', names);
+  console.log('--- names.head.next ', names.head.next);
+  console.log('-- names.isPalindrome(names.head.next) ', names.isPalindrome(names.head.next));
 
   // console.log('---- reverseLinkedList ', reverseLinkedList(names));
   // console.log('---- reverseLinkedList 222', reverse(names));
